@@ -33,9 +33,8 @@ class MultiHeadAttention:
         out = self.W_O(out) # (batch_size, seq_len, d_model)
         return out
 
-    def __init__(self): 
-        self.h = 8
-        d_model = 512
+    def __init__(self, d_model: int, heads: int): 
+        self.h = heads
         self.d_model = d_model
         self.W_Q = nn.Linear(d_model, d_model)   # projects Q
         self.W_K = nn.Linear(d_model, d_model)   # projects K
