@@ -2,14 +2,14 @@ import torch
 import torch.nn as nn
 from scaled_dot_prod_attention import scaled_dot_prod_attention
 
-class MultiHeadAttention:
+class MultiHeadAttention(nn.Module):
     # Q: (batch_size, seq_len, d_model)
     # K: (batch_size, seq_len, d_model)
     # V: (batch_size, seq_len, d_model)
-    def multihead_attention(self, Q: torch.Tensor,
-                            K: torch.Tensor,
-                            V: torch.Tensor, 
-                            mask: torch.Tensor=None):
+    def forward(self, Q: torch.Tensor,
+                K: torch.Tensor,
+                V: torch.Tensor, 
+                mask: torch.Tensor=None):
         # linear project the tensors 
         Q = self.W_Q(Q) # (batch_size, seq_len, d_model)
         K = self.W_K(K) # (batch_size, seq_len, d_model)
@@ -33,7 +33,8 @@ class MultiHeadAttention:
         out = self.W_O(out) # (batch_size, seq_len, d_model)
         return out
 
-    def __init__(self, d_model: int, heads: int): 
+    def __init__(self, d_model: int, heads: int):
+        super().__init__() 
         self.h = heads
         self.d_model = d_model
         self.W_Q = nn.Linear(d_model, d_model)   # projects Q
